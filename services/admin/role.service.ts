@@ -28,6 +28,5 @@ export const createRole = async (data: any) => {
     credentials: "include",
   });
 
-
   return res.json();
 };
