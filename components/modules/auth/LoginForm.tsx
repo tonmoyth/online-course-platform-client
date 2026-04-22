@@ -36,13 +36,13 @@ export default function LoginForm() {
       // Redirection based on role
       const role = user?.role;
       if (role === "ADMIN") {
-        router.push("/admin/dashboard");
+        router.push("/dashboard");
       } else if (role === "SUPER ADMIN") {
-        router.push("/admin/dashboard");
+        router.push("/dashboard");
       } else if (role === "INSTRUCTOR") {
-        router.push("/instructor/dashboard");
+        router.push("/dashboard");
       } else if (role === "STUDENT") {
-        router.push("/student/dashboard");
+        router.push("/dashboard");
       } else {
         router.push("/");
       }
