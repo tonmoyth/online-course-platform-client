@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { createRoleAction } from "@/actions/admin/role.action";
 
+
 const modules = [
   "Courses",
   "Lessons",
@@ -142,7 +143,7 @@ const CreateRoleForm = () => {
                       <div className="text-left font-medium text-sm">
                         {module}
                       </div>
-                      
+
                       <div className="flex justify-center">
                         <Controller
                           name={`permissions.${index}.canView`}
