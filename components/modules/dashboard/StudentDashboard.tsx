@@ -1,76 +1,91 @@
 "use client";
 
-import { BookOpen, Trophy, Clock, CheckCircle2, XCircle } from "lucide-react";
-import SummaryCard from "./SummaryCard";
+import { PlayCircle, CheckCircle2, XCircle, ArrowRight } from "lucide-react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
+  CardFooter,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface StudentDashboardProps {
   data: {
-    enrolledCourses: any[];
-    recentQuizzes: any[];
+    enrolledCourses: {
+      title: string;
+      progressPercent: number;
+    }[];
+    recentQuizzes: {
+      quizTitle: string;
+      score: number;
+      isPassed?: boolean;
+    }[];
     lastAccessedCourse: { title: string } | null;
   };
 }
 
 export default function StudentDashboard({ data }: StudentDashboardProps) {
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <div className="flex items-center justify-center h-48">Loading your learning path...</div>;
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-3">
-        <SummaryCard
-          title="Enrolled Courses"
-          value={data.enrolledCourses.length}
-          icon={BookOpen}
-        />
-        <SummaryCard
-          title="Completed Quizzes"
-          value={data.recentQuizzes.filter((q) => q.isPassed).length}
-          icon={Trophy}
-        />
-        <SummaryCard
-          title="Active Learning"
-          value={data.lastAccessedCourse?.title || "No recent activity"}
-          icon={Clock}
-          description="Last accessed course"
-        />
-      </div>
+    <div className="space-y-8">
+      {/* Quick Resume Section */}
+      {data.lastAccessedCourse && (
+        <Card className="bg-primary/5 border-primary/20 shadow-md">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2 text-primary mb-2">
+              <PlayCircle className="h-5 w-5" />
+              <span className="text-sm font-semibold uppercase tracking-wider">Welcome Back</span>
+            </div>
+            <CardTitle className="text-2xl md:text-3xl">Continue Learning</CardTitle>
+            <CardDescription className="text-lg font-medium text-foreground/80">
+              {data.lastAccessedCourse.title}
+            </CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Button size="lg" className="group">
+              Resume Course
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+        {/* Enrolled Courses Section */}
+        <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle>Course Progress</CardTitle>
-            <CardDescription>Your learning journey so far.</CardDescription>
+            <CardTitle className="text-xl">Enrolled Courses</CardTitle>
+            <CardDescription>Track your progress across all courses.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {data.enrolledCourses.map((course, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">{course.title}</span>
-                  <span className="text-muted-foreground">{course.progressPercent}%</span>
+              <div key={index} className="space-y-3 p-4 border rounded-xl hover:bg-muted/30 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-sm line-clamp-1">{course.title}</span>
+                  <Badge variant="outline" className="font-bold">
+                    {course.progressPercent}%
+                  </Badge>
                 </div>
                 <Progress value={course.progressPercent} className="h-2" />
               </div>
             ))}
             {data.enrolledCourses.length === 0 && (
-              <p className="text-center py-4 text-muted-foreground">
+              <p className="text-center py-10 text-muted-foreground italic">
                 You are not enrolled in any courses yet.
               </p>
             )}
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Recent Quizzes Section */}
+        <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle>Recent Quiz Results</CardTitle>
+            <CardTitle className="text-xl">Recent Quizzes</CardTitle>
             <CardDescription>Your latest assessment performance.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -78,35 +93,39 @@ export default function StudentDashboard({ data }: StudentDashboardProps) {
               {data.recentQuizzes.map((quiz, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 border rounded-lg"
+                  className="flex items-center justify-between p-4 border rounded-xl hover:bg-muted/30 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
                     {quiz.isPassed ? (
-                      <CheckCircle2 className="h-5 w-5 text-green-500" />
+                      <div className="p-2 bg-green-100 rounded-full">
+                        <CheckCircle2 className="h-5 w-5 text-green-600" />
+                      </div>
                     ) : (
-                      <XCircle className="h-5 w-5 text-red-500" />
+                      <div className="p-2 bg-red-100 rounded-full">
+                        <XCircle className="h-5 w-5 text-red-600" />
+                      </div>
                     )}
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium">{quiz.quizTitle}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Score: {quiz.score}%
+                    <div className="space-y-0.5">
+                      <p className="text-sm font-bold line-clamp-1">{quiz.quizTitle}</p>
+                      <p className="text-xs text-muted-foreground font-medium">
+                        Score: <span className="text-foreground">{quiz.score}%</span>
                       </p>
                     </div>
                   </div>
-                  <span
-                    className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${quiz.isPassed
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                      }`}
+                  <Badge
+                    className={quiz.isPassed
+                      ? "bg-green-500 hover:bg-green-600"
+                      : "bg-red-500 hover:bg-red-600"
+                    }
                   >
                     {quiz.isPassed ? "Passed" : "Failed"}
-                  </span>
+                  </Badge>
                 </div>
               ))}
               {data.recentQuizzes.length === 0 && (
-                <p className="text-center py-4 text-muted-foreground">
-                  No quizzes attempted yet.
-                </p>
+                <div className="flex flex-col items-center justify-center py-12 text-muted-foreground border-2 border-dashed rounded-xl">
+                  <p className="text-sm font-medium">No quizzes attempted yet</p>
+                </div>
               )}
             </div>
           </CardContent>

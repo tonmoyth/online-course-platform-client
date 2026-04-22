@@ -1,3 +1,9 @@
-export default function Page() {
-  return <div>Instructor Create Course Page</div>;
+import CreateCourseForm from "@/components/modules/instructor/course/CreateCourseForm";
+
+export default function CreateCoursePage() {
+  return (
+    <div className="container mx-auto px-4">
+      <CreateCourseForm />
+    </div>
+  );
 }

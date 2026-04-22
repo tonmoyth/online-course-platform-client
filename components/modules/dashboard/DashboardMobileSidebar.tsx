@@ -3,11 +3,12 @@ import { usePathname } from "next/navigation"
 
 import { getIconComponent } from "@/lib/iconMapper"
 import { cn } from "@/lib/utils"
-import { NavSection } from "@/types/dashboard.navItems.types"
+
 import { SheetTitle } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { UserInfo } from "@/types/user.types"
+import { NavSection } from "@/types/navItems.dashboar"
 
 interface DashboardMobileSidebarProps {
   userInfo: UserInfo
@@ -88,7 +89,7 @@ export default function DashboardMobileSidbar({
           <div className="flex-1 overflow-hidden">
             <p className="truncate text-sm font-medium">{userInfo?.name}</p>
             <p className="text-xs text-muted-foreground capitalize">
-              {userInfo?.role?.toLocaleLowerCase().replace("_", " ")}
+              {userInfo?.role?.name?.toLocaleLowerCase().replace("_", " ")}
             </p>
           </div>
         </div>

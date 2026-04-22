@@ -12,6 +12,7 @@ import Link from "next/link"
 import { UserInfo } from "@/types/user.types"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { logoutAction } from "@/actions/auth/logout.action"
+import { usePathname } from "next/navigation"
 
 interface UserDropdownProps {
     userInfo: UserInfo
@@ -19,6 +20,7 @@ interface UserDropdownProps {
 
 const UserDropdown = ({ userInfo }: UserDropdownProps) => {
     const [isLoggingOut, setIsLoggingOut] = React.useState(false)
+    const pathname = usePathname()
 
     const handleLogout = async () => {
         const confirmed = await swal({
@@ -45,7 +47,11 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
             }
 
             toast.success("Logged out successfully")
-            window.location.href = "/login"
+            if (pathname === "/") {
+                window.location.reload()
+            } else {
+                window.location.href = "/login"
+            }
         } catch (error: any) {
 
 
@@ -78,19 +84,19 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                     <Link className="flex" href={"/my-profile"}>
                         <User className="mr-2 h-4 w-4" />
                         My Profile
                     </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
 
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                     <Link className="flex" href="/settings/change-password">
                         <Key className="mr-2 h-4 w-4" />
                         Change Password
                     </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
 
                 <DropdownMenuSeparator />
 

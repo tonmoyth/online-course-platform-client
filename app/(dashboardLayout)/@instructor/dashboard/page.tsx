@@ -3,6 +3,7 @@ import InstructorDashboard from "@/components/modules/dashboard/InstructorDashbo
 
 export default async function InstructorDashboardPage() {
   const data = await getDashboardStatsAction();
+  console.log("DATA", data);
 
   return (
     <div className="container mx-auto py-6">

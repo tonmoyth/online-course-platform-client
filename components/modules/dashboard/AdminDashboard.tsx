@@ -53,18 +53,18 @@ export default function AdminDashboard({ data }: AdminDashboardProps) {
         />
       </div>
 
-      {(data.pendingApprovals.users > 0 || data.pendingApprovals.courses > 0) && (
+      {(data?.pendingApprovals?.users > 0 || data?.pendingApprovals?.courses > 0) && (
         <div className="grid gap-4 md:grid-cols-2">
            <SummaryCard
             title="Pending Users"
-            value={data.pendingApprovals.users}
+            value={data?.pendingApprovals?.users ?? 0}
             icon={AlertCircle}
             className="border-amber-200 bg-amber-50"
             description="Users awaiting approval"
           />
            <SummaryCard
             title="Pending Courses"
-            value={data.pendingApprovals.courses}
+            value={data?.pendingApprovals?.courses ?? 0}
             icon={AlertCircle}
             className="border-amber-200 bg-amber-50"
             description="Courses awaiting approval"

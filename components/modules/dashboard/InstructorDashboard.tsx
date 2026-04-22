@@ -2,7 +2,6 @@
 
 import { BookOpen, Users, Star } from "lucide-react";
 import SummaryCard from "./SummaryCard";
-import EnrollmentChart from "./EnrollmentChart";
 import {
   Card,
   CardContent,
@@ -10,84 +9,108 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface InstructorDashboardProps {
   data: {
     totalCourses: number;
     totalStudents: number;
     averageQuizScore: number;
-    courses: any[];
+    courses: {
+      title: string;
+      status: string;
+      enrolledStudents: number;
+    }[];
   };
 }
 
 export default function InstructorDashboard({ data }: InstructorDashboardProps) {
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <div className="flex items-center justify-center h-48">Loading stats...</div>;
 
-  const chartData = data.courses.map((c) => ({
-    name: c.title.substring(0, 15) + (c.title.length > 15 ? "..." : ""),
-    students: c.enrolledStudents,
-  }));
+  const getStatusBadge = (status: string) => {
+    switch (status.toUpperCase()) {
+      case "PUBLISHED":
+        return <Badge className="bg-green-500 hover:bg-green-600">Published</Badge>;
+      case "DRAFT":
+        return <Badge variant="secondary" className="bg-gray-200 text-gray-700 hover:bg-gray-300">Draft</Badge>;
+      case "PENDING":
+      case "PENDING REVIEW":
+        return <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">Pending Review</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Summary Section */}
       <div className="grid gap-4 md:grid-cols-3">
         <SummaryCard
-          title="Total Courses"
+          title="Total Courses Created"
           value={data.totalCourses}
           icon={BookOpen}
-          description="Courses you manage"
+          description="Your educational catalog"
         />
         <SummaryCard
-          title="Total Students"
+          title="Total Enrolled Students"
           value={data.totalStudents}
           icon={Users}
-          description="Enrolled in your courses"
+          description="Total reach across courses"
         />
         <SummaryCard
-          title="Avg. Quiz Score"
+          title="Average Quiz Score"
           value={`${data.averageQuizScore}%`}
           icon={Star}
-          description="Performance across quizzes"
+          description="Student performance indicator"
         />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <EnrollmentChart data={chartData} />
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Your Courses Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+      {/* Course List Section */}
+      <Card className="border-none shadow-sm">
+        <CardHeader className="px-6 py-4 border-b">
+          <CardTitle className="text-xl font-semibold">Your Courses Overview</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader className="bg-muted/50">
+              <TableRow>
+                <TableHead className="w-[50%] px-6">Course Title</TableHead>
+                <TableHead className="text-center">Status</TableHead>
+                <TableHead className="text-right px-6">Enrolled Students</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {data.courses.map((course, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  <div className="space-y-1">
-                    <p className="font-medium">{course.title}</p>
-                    <div className="flex gap-2">
-                      <Badge variant={course.status === "PUBLISHED" ? "default" : "outline"}>
-                        {course.status}
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium">{course.enrolledStudents}</p>
-                    <p className="text-xs text-muted-foreground">Students</p>
-                  </div>
-                </div>
+                <TableRow key={index} className="hover:bg-muted/30 transition-colors">
+                  <TableCell className="font-medium px-6 py-4">
+                    {course.title}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {getStatusBadge(course.status)}
+                  </TableCell>
+                  <TableCell className="text-right px-6 font-semibold">
+                    {course.enrolledStudents}
+                  </TableCell>
+                </TableRow>
               ))}
               {data.courses.length === 0 && (
-                <p className="text-center py-8 text-muted-foreground">
-                  You haven't created any courses yet.
-                </p>
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center py-12 text-muted-foreground">
+                    You haven't created any courses yet.
+                  </TableCell>
+                </TableRow>
               )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   );
 }

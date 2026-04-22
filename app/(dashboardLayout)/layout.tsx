@@ -34,7 +34,7 @@ export default async function DashboardLayout({
                 {/* <DashboardNavbar /> */}
                 <main className="flex-1 overflow-y-auto bg-muted/10 p-4 sm:p-6 lg:p-8 w-full">
                     {/* Render role-based content */}
-                    {userInfo?.role?.name === "SUPER ADMIN" || "ADMIN" ? admin : userInfo?.role?.name === "INSTRUCTOR" ? instructor : student}
+                    {userInfo?.role?.name === "SUPER ADMIN" || userInfo?.role?.name === "ADMIN" ? admin : userInfo?.role?.name === "INSTRUCTOR" ? instructor : student}
                 </main>
             </div>
 

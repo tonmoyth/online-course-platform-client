@@ -29,7 +29,7 @@ export default function RecentActivity({ data }: RecentActivityProps) {
         </CardHeader>
         <CardContent>
           <div className="space-y-8">
-            {data.newCourses.map((course) => (
+            {data?.newCourses?.map((course) => (
               <div key={course.id} className="flex items-center">
                 <div className="ml-4 space-y-1">
                   <p className="text-sm font-medium leading-none">
@@ -46,7 +46,7 @@ export default function RecentActivity({ data }: RecentActivityProps) {
                 </div>
               </div>
             ))}
-            {data.newCourses.length === 0 && (
+            {data?.newCourses?.length === 0 && (
               <p className="text-sm text-muted-foreground text-center py-4">
                 No recent courses.
               </p>
@@ -62,7 +62,7 @@ export default function RecentActivity({ data }: RecentActivityProps) {
         </CardHeader>
         <CardContent>
           <div className="space-y-8">
-            {data.newUsers.map((user) => (
+            {data?.newUsers?.map((user) => (
               <div key={user.id} className="flex items-center gap-4">
                 <Avatar className="h-9 w-9">
                   <AvatarFallback>
@@ -84,7 +84,7 @@ export default function RecentActivity({ data }: RecentActivityProps) {
                 </div>
               </div>
             ))}
-            {data.newUsers.length === 0 && (
+            {data?.newUsers?.length === 0 && (
               <p className="text-sm text-muted-foreground text-center py-4">
                 No new users.
               </p>
