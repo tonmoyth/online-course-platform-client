@@ -6,16 +6,23 @@ import { BookOpen, User, Calendar, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import ProgressBar from "./ProgressBar";
+import QuizStartButton from "../quiz/QuizStartButton";
 
 interface EnrolledCourse {
-  id: string; // The enrollment ID or course ID. Assuming we map to course ID for routing
+  id: string;
   courseId: string;
-  title: string;
-  thumbnailUrl?: string;
-  instructorName?: string;
-  instructorImage?: string;
-  enrolledAt: string;
   progressPercent: number;
+  enrolledAt: string;
+  course: {
+    id: string;
+    title: string;
+    thumbnailUrl?: string;
+    quizzes?: { id: string }[];
+    instructor?: {
+      name?: string;
+      image?: string;
+    };
+  };
 }
 
 interface EnrolledCoursesProps {
@@ -48,10 +55,10 @@ export default function EnrolledCourses({ enrollments }: EnrolledCoursesProps) {
         <Card key={enrollment.id} className="group overflow-hidden rounded-2xl border-none shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full bg-card">
           {/* Thumbnail */}
           <div className="relative aspect-video w-full overflow-hidden bg-muted/20">
-            {enrollment.thumbnailUrl ? (
+            {enrollment.course?.thumbnailUrl ? (
               <Image
-                src={enrollment.thumbnailUrl}
-                alt={enrollment.title}
+                src={enrollment.course.thumbnailUrl}
+                alt={enrollment.course.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 unoptimized={true}
@@ -61,7 +68,7 @@ export default function EnrolledCourses({ enrollments }: EnrolledCoursesProps) {
                 <BookOpen className="h-12 w-12 text-muted-foreground/30" />
               </div>
             )}
-            
+
             {/* Hover overlay play button */}
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <PlayCircle className="h-16 w-16 text-white drop-shadow-lg" />
@@ -70,7 +77,7 @@ export default function EnrolledCourses({ enrollments }: EnrolledCoursesProps) {
 
           <CardHeader className="p-5 pb-2">
             <h3 className="text-xl font-bold line-clamp-2 leading-tight group-hover:text-primary transition-colors">
-              {enrollment.title}
+              {enrollment.course?.title}
             </h3>
           </CardHeader>
 
@@ -78,10 +85,10 @@ export default function EnrolledCourses({ enrollments }: EnrolledCoursesProps) {
             {/* Instructor Info */}
             <div className="flex items-center gap-3">
               <div className="relative h-8 w-8 rounded-full overflow-hidden bg-muted border shrink-0">
-                {enrollment.instructorImage ? (
+                {enrollment.course?.instructor?.image ? (
                   <Image
-                    src={enrollment.instructorImage}
-                    alt={enrollment.instructorName || "Instructor"}
+                    src={enrollment.course.instructor.image}
+                    alt={enrollment.course.instructor.name || "Instructor"}
                     fill
                     className="object-cover"
                     unoptimized={true}
@@ -94,7 +101,7 @@ export default function EnrolledCourses({ enrollments }: EnrolledCoursesProps) {
               </div>
               <div>
                 <p className="text-sm font-medium leading-tight">
-                  {enrollment.instructorName || "Unknown Instructor"}
+                  {enrollment.course?.instructor?.name || "Unknown Instructor"}
                 </p>
                 <div className="flex items-center gap-1 mt-0.5 text-xs text-muted-foreground">
                   <Calendar className="h-3 w-3" />
@@ -109,12 +116,15 @@ export default function EnrolledCourses({ enrollments }: EnrolledCoursesProps) {
             </div>
           </CardContent>
 
-          <CardFooter className="p-5 pt-0 mt-auto">
+          <CardFooter className="p-5 pt-0 mt-auto flex flex-col gap-3">
             <Link href={`/dashboard/learn/${enrollment.courseId}`} className="w-full">
               <Button className="w-full rounded-xl font-bold shadow-sm group-hover:shadow-md transition-all gap-2">
                 Continue Learning
               </Button>
             </Link>
+            {enrollment.course?.quizzes && enrollment.course.quizzes.length > 0 && (
+              <QuizStartButton quizId={enrollment.course.quizzes[0].id} />
+            )}
           </CardFooter>
         </Card>
       ))}

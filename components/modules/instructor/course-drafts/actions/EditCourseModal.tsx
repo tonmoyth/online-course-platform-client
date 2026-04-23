@@ -69,7 +69,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: EditCourseM
 
   const onSubmit = async (values: CourseFormValues) => {
     setIsSubmitting(true);
-    console.log("Updated Payload:", { id: course.id, ...values });
+
     try {
       const res = await updateCourseAction(course.id, values);
       if (res.success) {
@@ -221,11 +221,11 @@ export default function EditCourseModal({ course, isOpen, onClose }: EditCourseM
                     <FormItem>
                       <FormLabel>Price ($)</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          {...field} 
-                          onChange={(e) => field.onChange(Number(e.target.value))} 
-                          placeholder="0.00" 
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                          placeholder="0.00"
                         />
                       </FormControl>
                       <FormMessage />

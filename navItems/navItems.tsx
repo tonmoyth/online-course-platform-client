@@ -107,43 +107,22 @@ const studentNavItems: NavSection[] = [
                 href: "/dashboard/all-courses",
                 icon: "Book",
             },
-            {
-                title: "Enrollment",
-                href: "/dashboard/enrollment",
-                icon: "UserCheck",
-            },
+
         ],
     },
     {
         title: "Learning",
         items: [
             {
-                title: "Lesson Track",
-                href: "/dashboard/lesson-track",
-                icon: "Activity",
+                title: "My Learning",
+                href: "/dashboard/my-learning",
+                icon: "GraduationCap",
             },
-            {
-                title: "See Lesson",
-                href: "/dashboard/see-lesson",
-                icon: "PlayCircle",
-            },
+
+
         ],
     },
-    {
-        title: "Quiz & Certificate",
-        items: [
-            {
-                title: "Attempts History",
-                href: "/dashboard/attempts-history",
-                icon: "History",
-            },
-            {
-                title: "Certificate",
-                href: "/dashboard/certificate",
-                icon: "Award",
-            },
-        ],
-    },
+
 ]
 
 /**

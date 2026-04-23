@@ -71,6 +71,7 @@ export async function proxy(request: NextRequest) {
     // Dynamic route prefixes that are allowed without exact nav item match
     const dynamicAllowedPrefixes = [
         "/dashboard/manage-course/",
+        "/dashboard/learn/",
     ]
 
     if (routeOwner) {

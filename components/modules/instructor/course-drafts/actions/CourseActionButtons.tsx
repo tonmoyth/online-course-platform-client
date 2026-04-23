@@ -40,7 +40,7 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
     setIsProcessing(true);
     try {
       const res = await submitCourseAction(course.id);
-      console.log("Submit Response:", res);
+
       if (res.success) {
         toast.success("Course submitted for review!");
       } else {
@@ -58,7 +58,7 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
     setIsProcessing(true);
     try {
       const res = await deleteCourseAction(course.id);
-      console.log("Delete Result:", res);
+
       if (res.success) {
         toast.success("Course deleted successfully");
       } else {

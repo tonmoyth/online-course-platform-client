@@ -6,6 +6,7 @@ export default async function MyLearningPage() {
   const response = await getEnrolledCoursesAction();
   const enrollments = response?.data || [];
 
+
   return (
     <div className="container mx-auto py-8 space-y-8 max-w-7xl">
       {/* Header Section */}
