@@ -85,15 +85,12 @@ const instructorNavItems: NavSection[] = [
                 icon: "FileText",
             },
             {
-                title: "Rejected Courses",
-                href: "/dashboard/rejected-course",
-                icon: "XCircle",
+                title: "Course manage",
+                href: "/dashboard/course-manage",
+                icon: "FileEdit",
             },
-            {
-                title: "Approved Courses",
-                href: "/dashboard/approved-course",
-                icon: "CheckCircle",
-            },
+
+
         ],
     },
     {

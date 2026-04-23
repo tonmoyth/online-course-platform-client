@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { 
-  Edit, 
-  Eye, 
-  Send, 
-  Trash2, 
-  Loader2 
+import {
+  Edit,
+  Eye,
+  Send,
+  Trash2,
+  Loader2
 } from "lucide-react";
-import { 
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -23,6 +23,7 @@ import { submitCourseAction, deleteCourseAction } from "@/actions/instructor/cou
 import { toast } from "sonner";
 import EditCourseModal from "./EditCourseModal";
 import CourseDetailsModal from "./CourseDetailsModal";
+import Link from "next/link";
 
 interface CourseActionButtonsProps {
   course: any;
@@ -74,9 +75,9 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
   return (
     <div className="grid grid-cols-2 gap-2 w-full">
       {/* Action Buttons */}
-      <Button 
-        variant="outline" 
-        size="sm" 
+      <Button
+        variant="outline"
+        size="sm"
         className="flex items-center gap-2 h-9 text-amber-600 border-amber-200 hover:bg-amber-50 hover:text-amber-700"
         onClick={() => setIsEditOpen(true)}
         disabled={isProcessing}
@@ -85,20 +86,22 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
         Edit
       </Button>
 
-      <Button 
-        variant="outline" 
-        size="sm" 
-        className="flex items-center gap-2 h-9 text-blue-600 border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-        onClick={() => setIsDetailsOpen(true)}
-        disabled={isProcessing}
-      >
-        <Eye className="h-3.5 w-3.5" />
-        Details
-      </Button>
 
-      <Button 
-        variant="outline" 
-        size="sm" 
+      <Link href={`/dashboard/manage-course/${course.id}`} className="w-full">
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2 h-9 w-full text-blue-600 border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+          disabled={isProcessing}
+        >
+          <Eye className="h-3.5 w-3.5" />
+          Manage
+        </Button>
+      </Link>
+
+      <Button
+        variant="outline"
+        size="sm"
         className="flex items-center gap-2 h-9 text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700"
         onClick={() => setIsSubmitConfirmOpen(true)}
         disabled={isProcessing}
@@ -107,9 +110,9 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
         Submit
       </Button>
 
-      <Button 
-        variant="outline" 
-        size="sm" 
+      <Button
+        variant="outline"
+        size="sm"
         className="flex items-center gap-2 h-9 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
         onClick={() => setIsDeleteConfirmOpen(true)}
         disabled={isProcessing}
@@ -119,16 +122,16 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
       </Button>
 
       {/* Modals & Dialogs */}
-      <EditCourseModal 
-        course={course} 
-        isOpen={isEditOpen} 
-        onClose={() => setIsEditOpen(false)} 
+      <EditCourseModal
+        course={course}
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
       />
 
-      <CourseDetailsModal 
-        course={course} 
-        isOpen={isDetailsOpen} 
-        onClose={() => setIsDetailsOpen(false)} 
+      <CourseDetailsModal
+        course={course}
+        isOpen={isDetailsOpen}
+        onClose={() => setIsDetailsOpen(false)}
       />
 
       {/* Submit Confirmation */}
@@ -142,8 +145,8 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isProcessing}>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleSubmit} 
+            <AlertDialogAction
+              onClick={handleSubmit}
               className="bg-green-600 hover:bg-green-700"
               disabled={isProcessing}
             >
@@ -165,8 +168,8 @@ export default function CourseActionButtons({ course }: CourseActionButtonsProps
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isProcessing}>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleDelete} 
+            <AlertDialogAction
+              onClick={handleDelete}
               className="bg-red-600 hover:bg-red-700"
               disabled={isProcessing}
             >

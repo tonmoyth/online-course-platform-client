@@ -66,14 +66,23 @@ export async function proxy(request: NextRequest) {
     }
 
     // admin parbe sudu tar route gula access korte, member parbe tar route gula access korte, ar guest parbe sudu public route gula access korte
-    const navItems: NavSection[] = getNavItems(role as UserRole)
+    const navItems: NavSection[] = getNavItems(role as UserRole);
+
+    // Dynamic route prefixes that are allowed without exact nav item match
+    const dynamicAllowedPrefixes = [
+        "/dashboard/manage-course/",
+    ]
 
     if (routeOwner) {
-        const allowed = navItems.some((section) =>
+        const isExactMatch = navItems.some((section) =>
             section.items.some((item) => item.href === pathname)
         )
 
-        if (!allowed && pathname !== "/login") {
+        const isDynamicMatch = dynamicAllowedPrefixes.some((prefix) =>
+            pathname.startsWith(prefix)
+        )
+
+        if (!isExactMatch && !isDynamicMatch && pathname !== "/login") {
             return NextResponse.redirect(new URL("/dashboard", request.url))
         }
     }
