@@ -84,30 +84,15 @@ const instructorNavItems: NavSection[] = [
                 href: "/dashboard/draft-course",
                 icon: "FileText",
             },
-            {
-                title: "Course manage",
-                href: "/dashboard/course-manage",
-                icon: "FileEdit",
-            },
+            // {
+            //     title: "Course manage",
+            //     href: "/dashboard/course-manage",
+            //     icon: "FileEdit",
+            // },
 
 
         ],
-    },
-    {
-        title: "Content Management",
-        items: [
-            {
-                title: "All Lessons",
-                href: "/dashboard/all-lesson",
-                icon: "BookOpen",
-            },
-            {
-                title: "All Quiz",
-                href: "/dashboard/all-quiz",
-                icon: "ClipboardList",
-            },
-        ],
-    },
+    }
 ]
 
 /**
