@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { enrollCourseAction } from "@/actions/enrollment.actions";
 import Image from "next/image";
 import { Course } from "./types";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +18,7 @@ import {
   CheckCircle2,
   Lock,
   PlayCircle,
+  Loader2,
 } from "lucide-react";
 
 interface CourseDetailsProps {
@@ -24,6 +28,25 @@ interface CourseDetailsProps {
 export default function CourseDetails({ course }: CourseDetailsProps) {
   const [imgError, setImgError] = useState(false);
   const [instructorImgError, setInstructorImgError] = useState(false);
+  const [isEnrolling, setIsEnrolling] = useState(false);
+  const router = useRouter();
+
+  const handleEnroll = async () => {
+    setIsEnrolling(true);
+    try {
+      const res = await enrollCourseAction(course.id);
+      if (res.success) {
+        toast.success(res.message);
+        router.push("/dashboard/my-learning");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
 
   const isFree = course.priceType === "FREE" || Number(course.price) === 0;
   const lessons = course.lessons || [];
@@ -61,6 +84,7 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                     alt={course.instructor.name || "Instructor"}
                     fill
                     className="object-cover"
+                    unoptimized={true}
                     onError={() => setInstructorImgError(true)}
                   />
                 ) : (
@@ -103,6 +127,7 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                   alt={course.title}
                   fill
                   className="object-cover"
+                  unoptimized={true}
                   onError={() => setImgError(true)}
                 />
               ) : (
@@ -121,8 +146,19 @@ export default function CourseDetails({ course }: CourseDetailsProps) {
                 </div>
               </div>
 
-              <Button className="w-full h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                Enroll Now
+              <Button
+                onClick={handleEnroll}
+                disabled={isEnrolling}
+                className="w-full h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              >
+                {isEnrolling ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Enrolling...
+                  </>
+                ) : (
+                  "Enroll Now"
+                )}
               </Button>
 
               <div className="space-y-4 pt-4">

@@ -5,9 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Navbar from "@/components/modules/home/Navbar";
-import { getUserAction } from "@/actions/auth/getUser.action";
-import Footer from "@/components/modules/home/Footer";
+
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -21,7 +19,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const user = await getUserAction();
+
   return (
     <html
       lang="en"
@@ -31,10 +29,10 @@ export default async function RootLayout({
       <body>
         <ThemeProvider>
           <TooltipProvider>
-            <Navbar user={user}></Navbar>
+
             {children}
           </TooltipProvider>
-          <Footer />
+
           <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>

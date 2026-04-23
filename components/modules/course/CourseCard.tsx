@@ -19,9 +19,10 @@ interface CourseCardProps {
 }
 
 export default function CourseCard({ course }: CourseCardProps) {
+
   const [imgError, setImgError] = useState(false);
   const [instructorImgError, setInstructorImgError] = useState(false);
-  
+
   const isFree = course.priceType === "FREE" || Number(course.price) === 0;
 
   return (
@@ -34,6 +35,7 @@ export default function CourseCard({ course }: CourseCardProps) {
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            unoptimized={true}
             onError={() => setImgError(true)}
           />
         ) : (
@@ -77,6 +79,7 @@ export default function CourseCard({ course }: CourseCardProps) {
                 alt={course.instructor.name || "Instructor"}
                 fill
                 className="object-cover"
+                unoptimized={true}
                 onError={() => setInstructorImgError(true)}
               />
             ) : (
