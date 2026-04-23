@@ -11,7 +11,10 @@ interface Option {
 interface Question {
   id: string;
   questionText: string;
-  options: string[]; // assuming options are just strings based on generic quiz APIs
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
 }
 
 interface QuestionCardProps {
@@ -48,14 +51,19 @@ export default function QuestionCard({
 
       {/* Options Grid */}
       <div className="space-y-3">
-        {question.options.map((optionText, i) => {
-          const isSelected = selectedOption === optionText;
-          const label = labels[i] || `${i + 1}`;
+        {[
+          { key: "A", text: question.optionA },
+          { key: "B", text: question.optionB },
+          { key: "C", text: question.optionC },
+          { key: "D", text: question.optionD },
+        ].map((option, i) => {
+          const isSelected = selectedOption === option.key;
+          const label = labels[i];
 
           return (
             <button
-              key={i}
-              onClick={() => onSelectOption(optionText)}
+              key={option.key}
+              onClick={() => onSelectOption(option.key)}
               className={cn(
                 "w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all duration-200 group",
                 isSelected
@@ -79,7 +87,7 @@ export default function QuestionCard({
                   isSelected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
                 )}
               >
-                {optionText}
+                {option.text}
               </p>
             </button>
           );

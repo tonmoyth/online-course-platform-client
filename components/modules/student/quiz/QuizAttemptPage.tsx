@@ -12,7 +12,10 @@ import { submitAttemptAction } from "@/actions/quizAttempt.actions";
 interface Question {
   id: string;
   questionText: string;
-  options: string[];
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
 }
 
 interface QuizAttemptPageProps {

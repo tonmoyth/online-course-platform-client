@@ -16,18 +16,27 @@ interface QuizResultProps {
   result: {
     id: string;
     score: number;
-    passingScore: number;
-    passed: boolean;
-    totalQuestions: number;
-    correctAnswers: number;
-    answers?: ResultAnswer[]; // Optional if backend provides detailed breakdown
+    isPassed: boolean;
+    quiz: {
+      title: string;
+      passingScore: number;
+      questions: any[];
+    };
+    answers: {
+      questionId: string;
+      question: { questionText: string; correctOption: string };
+      selectedOption: string;
+      isCorrect: boolean;
+    }[];
   };
-  quizId?: string; // Optional, to navigate back to history or course
+  quizId?: string;
 }
 
 export default function QuizResult({ result, quizId }: QuizResultProps) {
-  const isPass = result.passed;
-  const scorePercent = Math.round((result.score / result.totalQuestions) * 100) || 0;
+  const isPass = result.isPassed;
+  const totalQuestions = result.quiz?.questions?.length || 0;
+  const correctAnswers = result.answers?.filter((a) => a.isCorrect).length || 0;
+  const scorePercent = result.score || 0;
 
   return (
     <div className="max-w-3xl mx-auto py-12 px-4 space-y-8">
@@ -48,7 +57,7 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
         >
           {isPass ? <Trophy className="h-12 w-12" /> : <AlertCircle className="h-12 w-12" />}
         </div>
-        
+
         <div className="space-y-2 relative z-10">
           <h1 className="text-4xl font-black tracking-tight">
             {isPass ? "Congratulations!" : "Keep Trying!"}
@@ -74,19 +83,19 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
         <Card className="bg-card shadow-sm border-none">
           <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-1">
             <p className="text-muted-foreground font-medium">Total Questions</p>
-            <p className="text-3xl font-bold">{result.totalQuestions}</p>
+            <p className="text-3xl font-bold">{totalQuestions}</p>
           </CardContent>
         </Card>
         <Card className="bg-card shadow-sm border-none">
           <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-1">
             <p className="text-muted-foreground font-medium">Correct Answers</p>
-            <p className="text-3xl font-bold text-green-500">{result.correctAnswers}</p>
+            <p className="text-3xl font-bold text-green-500">{correctAnswers}</p>
           </CardContent>
         </Card>
         <Card className="bg-card shadow-sm border-none">
           <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-1">
             <p className="text-muted-foreground font-medium">Passing Score</p>
-            <p className="text-3xl font-bold">{result.passingScore}%</p>
+            <p className="text-3xl font-bold">{result.quiz?.passingScore}%</p>
           </CardContent>
         </Card>
       </div>
@@ -107,7 +116,7 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
                     )}
                   </div>
                   <div className="space-y-1 flex-1">
-                    <p className="font-semibold text-lg">{ans.questionText}</p>
+                    <p className="font-semibold text-lg">{ans.question?.questionText}</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
                       <div className="p-3 rounded-xl bg-muted/50 border border-dashed">
                         <p className="text-xs text-muted-foreground font-bold uppercase mb-1">Your Answer</p>
@@ -119,7 +128,7 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
                         <div className="p-3 rounded-xl bg-green-500/10 border border-green-500/20">
                           <p className="text-xs text-green-700 dark:text-green-400 font-bold uppercase mb-1">Correct Answer</p>
                           <p className="font-medium text-green-700 dark:text-green-400">
-                            {ans.correctOption}
+                            {ans.question?.correctOption}
                           </p>
                         </div>
                       )}

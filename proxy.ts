@@ -72,6 +72,7 @@ export async function proxy(request: NextRequest) {
     const dynamicAllowedPrefixes = [
         "/dashboard/manage-course/",
         "/dashboard/learn/",
+        "/dashboard/quiz"
     ]
 
     if (routeOwner) {

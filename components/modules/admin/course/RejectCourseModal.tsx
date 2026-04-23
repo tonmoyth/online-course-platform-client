@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,7 @@ export default function RejectCourseModal({
   isOpen,
   onClose,
 }: RejectCourseModalProps) {
+  const router = useRouter();
   const [remark, setRemark] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -41,6 +43,7 @@ export default function RejectCourseModal({
     try {
       await rejectCourseAction(courseId, remark);
       toast.success("Course rejected successfully");
+      router.refresh();
       onClose();
       setRemark("");
     } catch (error: any) {

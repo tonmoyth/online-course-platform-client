@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Check,
@@ -35,6 +36,7 @@ export default function CourseActions({
   course,
   onRejectTrigger,
 }: CourseActionsProps) {
+  const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
 
   const handleAction = async (
@@ -45,6 +47,7 @@ export default function CourseActions({
     try {
       await actionFn(course.id);
       toast.success(`Course ${actionName}ed successfully`);
+      router.refresh();
     } catch (error: any) {
       toast.error(error.message || `Failed to ${actionName} course`);
     } finally {

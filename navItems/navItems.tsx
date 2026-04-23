@@ -43,11 +43,7 @@ const adminNavItems: NavSection[] = [
     {
         title: "Role Management",
         items: [
-            {
-                title: "View Roles",
-                href: "/dashboard/view-role",
-                icon: "Eye",
-            },
+
             {
                 title: "Create Role",
                 href: "/dashboard/create-role",
