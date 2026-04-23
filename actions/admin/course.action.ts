@@ -11,7 +11,7 @@ import { revalidatePath } from "next/cache";
 
 export const getCoursesAction = async (params: Record<string, any>) => {
   const data = await getCourses(params);
-  console.log("data in action", data)
+
   return data
 };
 

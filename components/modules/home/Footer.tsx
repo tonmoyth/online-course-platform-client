@@ -2,9 +2,15 @@
 
 import Link from "next/link";
 import { Mail, GraduationCap } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
+
+  if (pathname === "/login" || pathname === "/register") {
+    return null;
+  }
 
   return (
     <footer className="bg-muted/30 border-t py-12">

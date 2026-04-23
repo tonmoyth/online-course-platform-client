@@ -19,6 +19,7 @@ export const registerUser = async (data: any) => {
 };
 
 export const loginUser = async (data: any) => {
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
     method: "POST",
     headers: {
@@ -26,6 +27,7 @@ export const loginUser = async (data: any) => {
     },
     body: JSON.stringify(data)
   });
+  console.log("res", res)
 
   const result = await res.json();
 

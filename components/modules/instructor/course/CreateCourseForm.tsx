@@ -32,7 +32,7 @@ import { useRouter } from "next/router";
 const schema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  category: z.string().min(1, "Category is required"),
+  category: z.string().optional(),
   thumbnailUrl: z.string().url("Please upload a thumbnail image").optional(),
   difficulty: z.enum(["Beginner", "Intermediate", "Advanced"]),
   priceType: z.enum(["FREE", "PAID"]),
@@ -128,11 +128,14 @@ export default function CreateCourseForm() {
         ...data,
         price: data.priceType === "FREE" ? 0 : data.price,
       };
-      await createCourseAction(payload);
-      toast.success("Course created successfully, Again check from draft");
-      reset();
-
-      setPreviewUrl(null);
+      const res = await createCourseAction(payload);
+      if (res.success) {
+        toast.success("Course created successfully, Again check from draft");
+        reset();
+        setPreviewUrl(null);
+      } else {
+        toast.error(res.message || "Failed to create course");
+      }
     } catch (error: any) {
       toast.error(error.message || "Failed to create course");
     } finally {
@@ -181,7 +184,7 @@ export default function CreateCourseForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Category */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
                 <Select onValueChange={(val) => setValue("category", val, { shouldValidate: true })}>
                   <SelectTrigger id="category" className={errors.category ? "border-destructive" : ""}>
@@ -198,7 +201,7 @@ export default function CreateCourseForm() {
                 {errors.category && (
                   <p className="text-sm text-destructive font-medium">{errors.category.message}</p>
                 )}
-              </div>
+              </div> */}
 
               {/* Difficulty */}
               <div className="space-y-2">

@@ -15,7 +15,7 @@ const getTokenRemainingTime = (token: string): number => {
         }
 
         const currentTime = Math.floor(Date.now() / 1000)
-        const remainingTime = (payload.exp as number) - currentTime
+        const remainingTime = (payload?.exp as number) - currentTime
 
         return remainingTime > 0 ? remainingTime : 0
     } catch (error) {

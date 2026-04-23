@@ -19,7 +19,7 @@ export default async function AdminCourseOversightPage({
 }) {
   const params = await searchParams;
   const data = await getCoursesAction(params);
-  console.log("course", data)
+
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">

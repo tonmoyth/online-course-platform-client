@@ -20,22 +20,18 @@ export default function Hero() {
               <span className="text-primary mr-2">New</span>
               Explore 500+ Professional Courses
             </div>
-            
+
             <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight">
               Unlock Your Potential with Our <span className="text-primary">Course Learning</span> Platform
             </h1>
-            
+
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0">
               Join thousands of students and start your journey today. Learn from industry experts and get certified in the most in-demand skills.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link href="/register">
-                <Button size="lg" className="h-12 px-8 text-lg font-semibold w-full sm:w-auto">
-                  Get Started
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+
+
               <Link href="/course">
                 <Button size="lg" variant="outline" className="h-12 px-8 text-lg font-semibold w-full sm:w-auto">
                   Browse Courses
@@ -61,9 +57,9 @@ export default function Hero() {
 
           <div className="relative">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted border shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" 
-                alt="Students studying together" 
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop"
+                alt="Students studying together"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -83,6 +79,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }

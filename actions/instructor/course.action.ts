@@ -1,6 +1,6 @@
 "use server";
 
-
+import { revalidatePath } from "next/cache";
 import { 
   createCourse, 
   getDraftCourses, 
@@ -42,15 +42,12 @@ export const getDraftCoursesAction = async (params: any) => {
   const res = await getDraftCourses(params);
   return res;
 };
-import { revalidatePath } from "next/cache";
-
 export const createCourseAction = async (data: any) => {
   const res = await createCourse(data);
 
-  if (!res.success) {
-    throw new Error(res.message || "Failed to create course");
+  if (res.success) {
+    revalidatePath("/instructor/dashboard");
   }
 
-  revalidatePath("/instructor/dashboard");
   return res;
 };

@@ -33,8 +33,8 @@ const lessonSchema = z.object({
   content: z.string().min(1, "Content is required"),
   videoUrl: z.string().optional().or(z.literal("")),
   fileUrl: z.string().optional().or(z.literal("")),
-  isFreePreview: z.boolean().default(false),
-  orderIndex: z.coerce.number().min(0).optional(),
+  isFreePreview: z.boolean(),
+  orderIndex: z.number().min(0).optional(),
 });
 
 type LessonFormValues = z.infer<typeof lessonSchema>;

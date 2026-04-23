@@ -24,15 +24,10 @@ export default function Navbar({ user }: NavbarProps) {
           <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
             Home
           </Link>
-          <Link href="/course" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/course" className="text-sm cursor-pointer font-medium transition-colors hover:text-primary">
             Courses
           </Link>
-          <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
-            About Us
-          </Link>
-          <Link href="/contact" className="text-sm font-medium transition-colors hover:text-primary">
-            Contact
-          </Link>
+
         </div>
 
         <div className="flex items-center gap-4">
